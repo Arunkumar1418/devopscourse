@@ -22,7 +22,7 @@ pipeline {
         stage('Trivy Scan') {
             steps {
 		// This step is to scan the docker image that we have build   
-                sh 'docker run aquasec/trivy arunkumar1418/jenkinstest:$BUILD_NUMBER'
+                sh 'docker run aquasec/trivy arunkumar1418/jenkinstest:*'
              }
         }
         stage('Docker Push') {
