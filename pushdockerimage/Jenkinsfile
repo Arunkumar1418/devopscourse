@@ -30,7 +30,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'DockerHubPasswd', variable: 'dockerHubPasswd')]) {
                    sh 'docker login -u arunkumar1418  -p ${dockerHubPasswd}'
                    // This step is to scan the docker image that we have build   
-                   sh 'docker run aquasec/trivy image arunkumar1418/jenkinstest'               
+                   sh 'docker run aquasec/trivy image arunkumar1418/jenkinstest:$BUILD_NUMBER'               
                  }
              }
         }
