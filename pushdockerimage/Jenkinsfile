@@ -19,16 +19,19 @@ pipeline {
 		sh 'docker build -t arunkumar1418/jenkinstest:$BUILD_NUMBER ./pushdockerimage/'
             }
         }
-        stage('Trivy Scan') {
-            steps {
-		// This step is to scan the docker image that we have build   
-                sh 'docker run aquasec/trivy image arunkumar1418/jenkinstest'
-             }
-        }
         stage('Docker Push') {
             steps {
 		//sh 'docker push raj80dockerid/jenkinstest' (this will use the tag latest)    
                 sh 'docker push arunkumar1418/jenkinstest:$BUILD_NUMBER'
+             }
+        }
+        stage('Trivy Scan') {
+            steps {
+                withCredentials([string(credentialsId: 'DockerHubPasswd', variable: 'dockerHubPasswd')]) {
+                   sh 'docker login -u arunkumar1418  -p ${dockerHubPasswd}'
+                   // This step is to scan the docker image that we have build   
+                   sh 'docker run aquasec/trivy image arunkumar1418/jenkinstest'               
+                 }
              }
         }
     }
