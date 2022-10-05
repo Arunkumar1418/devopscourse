@@ -19,6 +19,12 @@ pipeline {
 		sh 'docker build -t arunkumar1418/jenkinstest:$BUILD_NUMBER ./pushdockerimage/'
             }
         }
+        stage('Trivy Scan') {
+            steps {
+		// This step is to scan the docker image that we have build   
+                sh 'docker run aquasec/trivy arunkumar1418/jenkinstest:$BUILD_NUMBER'
+             }
+        }
         stage('Docker Push') {
             steps {
 		//sh 'docker push raj80dockerid/jenkinstest' (this will use the tag latest)    
